@@ -1,0 +1,131 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (ContactUs)Model.Content;
+    //var settings = (ContactUs)Model.Content;
+    var sectionBackgroundImage = content.BackgroundImage;
+    var backgroundImage = "";
+
+    @if (sectionBackgroundImage != null)
+    {
+        backgroundImage = sectionBackgroundImage.Url();
+
+    }
+}
+<style>
+    .form-fields {
+        background-image: url( @backgroundImage );
+    }
+
+    iframe.google-map {
+        height: 300px;
+        width: 100%;
+    }
+</style>
+<div class="form-fields">
+  <div class="w-row">
+    <div class="w-col w-col-6">
+      <div class="form-block w-form">
+        <form
+          id="email-form"
+          name="email-form"
+          data-name="Email Form"
+          method="get"
+          data-wf-page-id="64d16f3ec72eb5e6781506fc"
+          data-wf-element-id="c23843d8-d750-6151-968f-9ef023407470"
+          aria-label="Email Form"
+        >
+          <label for="name-3" class="field-label">Name</label
+          ><input
+            class="text-field-2 w-input"
+            maxlength="256"
+            name="name-3"
+            data-name="Name 3"
+            placeholder="Name"
+            type="text"
+            id="name-3"
+          /><label for="email" class="field-label">Email Address</label
+          ><input
+            class="text-field-2 w-input"
+            maxlength="256"
+            name="email"
+            data-name="Email"
+            placeholder="Email"
+            type="email"
+            id="email"
+            required=""
+          /><input
+            class="text-field-2 w-input"
+            maxlength="256"
+            name="Phone"
+            data-name="Phone"
+            placeholder="Phone"
+            type="tel"
+            id="Phone"
+            required=""
+          /><textarea
+            id="field"
+            name="field"
+            maxlength="5000"
+            data-name="Field"
+            placeholder="Message"
+            class="textarea w-input"
+          ></textarea>
+          <div class="newsletter-signup"></div>
+          <input
+            type="submit"
+            data-wait="Please wait..."
+            class="submit-button w-button"
+            value="Submit"
+          />
+        </form>
+        <div
+          class="w-form-done"
+          tabindex="-1"
+          role="region"
+          aria-label="Email Form success"
+        >
+          <div>Thank you! Your submission has been received!</div>
+        </div>
+        <div
+          class="w-form-fail"
+          tabindex="-1"
+          role="region"
+          aria-label="Email Form failure"
+        >
+          <div>Oops! Something went wrong while submitting the form.</div>
+        </div>
+      </div>
+    </div>
+    <div class="w-col w-col-6">
+      <div class="form-right">
+        <div class="div-block-13">
+          <div class="introduction">
+           @content.TextContent
+          </div>
+        </div>
+        <div class="div-block-16">
+           <iframe class="google-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3817.227375404032!2d125.1742718!3d6.1274929!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f79f004e3867ab%3A0xc96307fd1e50a3ce!2sSFFAII%20and%20SOCOPA!5e1!3m2!1sen!2sph!4v1740553825898!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+        <div class="div-block-14">
+          <div class="div-block-15">
+            <img
+              src="https://cdn.prod.website-files.com/64565d5e09c5e188520f8fdf/6470854eb9d9e13ff8079516_Phone%20Icon.png"
+              loading="lazy"
+              alt=""
+            />
+            <div class="text-block">@content.PhoneNumber</div>
+          </div>
+          <div class="div-block-15">
+            <img
+              src="https://cdn.prod.website-files.com/64565d5e09c5e188520f8fdf/6470854eb9d9e13ff8079518_Email%20Icon.png"
+              loading="lazy"
+              alt=""
+            />
+            <div class="text-block">@content.Email</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

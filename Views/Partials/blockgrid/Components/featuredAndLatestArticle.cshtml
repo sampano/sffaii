@@ -1,0 +1,391 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Clean.Core.Extensions
+@using Clean.Core.Helpers
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+	var row = Model.Content as FeaturedAndLatestArticle;
+	var settings = Model.Settings as LatestArticlesRowSettings;
+	if (settings?.Hide ?? false) { return; }
+
+	var spacingClasses = "";
+	if (Model.Settings is ISpacingProperties spacing)
+	{
+		spacingClasses = SpacingHelper.GetSpacingClasses(spacing.PaddingTop, spacing.PaddingBottom, spacing.PaddingLeft, spacing.PaddingRight, spacing.MarginTop, spacing.MarginBottom, spacing.MarginLeft, spacing.MarginRight);
+	}
+
+	var pageSize = row.PageSize;
+	var pageNumber = QueryStringHelper.GetIntFromQueryString(Context.Request.Query, "page", 1);
+	var allArticles = row.ArticleList.Children<Article>().Where(x => x.IsVisible()).OrderByDescending(x => x.ArticleDate) ?? Enumerable.Empty<Article>();
+	var pageOfArticles = allArticles.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+	var totalItemCount = allArticles.Count();
+	var pageCount = totalItemCount > 0 ? Math.Ceiling((double)totalItemCount / pageSize) : 1;
+
+}
+
+<style>
+	.featured-latest-card .card-grid-lg {
+		height: 550px;
+	}
+
+	.featured-latest-card .featured-article-card .card-grid-lg {
+		height: 607px;
+	}
+
+	.featured-latest-card .card-featured{
+		color: #02dfef;
+		font-size: 32px;
+		right: 10px;
+		position: absolute;
+		top: 10px;
+	}
+	.featured-latest-card .card-grid-sm{
+		height: calc(280px - 2rem / 2);
+	}
+
+	.featured-latest-card .card {
+		border-radius: 5px;
+		border: none;
+	}
+
+	.featured-latest-card .card:hover {
+		transform: scale(1.05);
+		transition: transform 0.3s ease-in-out;
+	}
+	.featured-latest-card .tns-outer {
+		width: 47%;
+	}
+
+	.featured-latest-card .tns-controls {
+		margin: 0;
+	}
+
+	.featured-latest-card .card.card-overlay-bottom {
+    overflow: hidden; /* Ensures background doesn't overflow */
+	}
+
+	.featured-latest-card .card-bg-scale {
+		position: relative;
+		background-size: cover;
+		background-position: center;
+		transition: transform 0.3s ease-in-out;
+	}
+
+	.featured-latest-card .card.card-overlay-bottom:before {
+		content: "";
+		position: absolute;
+		height: 100%;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background-image: -webkit-gradient(linear, left top, left bottom, from(transparent), to(black));
+		background-image: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(255,255,255,0) 20%);
+		z-index: 1;
+	}
+
+	.featured-latest-card .card-bg-scale::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-image: inherit;
+			background-size: cover;
+		background-position: inherit;
+		background-repeat: no-repeat;
+		transition: transform 0.3s ease-in-out;
+		z-index: -1; /* Keep it behind the content */
+	}
+
+	.featured-latest-card .card-bg-scale:hover::before {
+		transform: scale(1.1); /* Scale background only */
+	}
+
+
+	.featured-latest-card .card-bg-scale:hover {
+		background-size: 110%; /* Scale the background image */
+	}
+
+	.featured-latest-card .heading-latest-article {
+		display: flex;
+		align-items: center;
+	}
+
+	.featured-latest-card .heading-featured-article {
+		text-align: right;
+		background: radial-gradient(circle at 20% 130%,#fdf497 0%, #fd5949 5%,#fdf497 45%, #d6249f 60%, #285AEB 90%);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		display: inline-block; /* Ensures text respects background */
+		width: 100%;
+	}
+
+	
+	.featured-latest-card  svg.hourglass-icon {
+		width: 20px;
+		margin-right: 10px;
+		margin-top: 5px;
+	}
+
+	.tns-nav {
+		display: none !important;
+	}
+
+	.tns-controls {
+		text-align: center;
+		margin-top: 10px;
+	}
+
+	/* Style Prev/Next buttons */
+	.tns-prev, .tns-next {
+		background-color: #007bff;
+		color: white;
+		border: none;
+		padding: 10px 15px;
+		font-size: 18px;
+		cursor: pointer;
+		border-radius: 5px;
+		transition: background 0.3s;
+	}
+
+		/* Hover effect */
+		.tns-prev:hover, .tns-next:hover {
+			background-color: #0056b3;
+		}
+
+	/* Position buttons on sides */
+	.tns-prev {
+		position: absolute;
+		left: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.tns-next {
+		position: absolute;
+		right: 10px;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+
+	.featured-latest-card-row {
+		justify-content: center;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		width: 100%;
+		margin: 0;
+	}
+
+	.featured-latest-card-row .tns-outer {
+		position: relative;
+		margin-top: 1.5rem;
+		
+	}
+
+	.tns-controls button[data-controls="prev"], button[data-controls="next"] {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px; /* Adjust width if needed */
+		height: 40px;
+		background: rgba(0, 123, 255, 0.8);
+		color: white;
+		border: none;
+		border-radius: 50%;
+		cursor: pointer;
+		font-size: 18px;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 99;
+		transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+	}
+
+		.tns-controls button[data-controls="prev"]:hover,
+		.tns-controls button[data-controls="next"]:hover {
+			transform: translateY(-50%) scale(1.2); /* Scale up by 20% */
+			background: rgba(0, 123, 255, 1); /* Opacity set to 1 */
+		}
+
+	.tns-controls button[data-controls="prev"] {
+		left: 20px; /* Adjust this value */
+	}
+
+
+	.tns-controls button[data-controls="next"] {
+		right: 20px;
+	}
+
+	@@media screen and (max-width: 991px) {
+		.featured-latest-card-row .tns-outer {
+			width: 100%;
+		}
+	}
+</style>
+<div class="pt-4 pb-0 card-grid featured-latest-card">
+	<div class="row g-4 featured-latest-card-row">
+		
+			<!-- Left big card -->
+		<div class="col-lg-6 featured-article-card">
+			@foreach (var featuredContent in pageOfArticles)
+			{
+				@if(featuredContent.FeaturedArticle == true) {
+				
+					<div class="card card-overlay-bottom card-grid-lg card-bg-scale" style="background-image:url(/media/xhdpcgmz/bg-02.jpg); background-position: center left; background-size: cover;">
+						<!-- Card featured -->
+						<p class="px-3 py-3 px heading-featured-article text-color-white"><strong >Featured Article</strong></p>
+						<!-- Card Image overlay -->
+						<div class="card-img-overlay d-flex align-items-center p-3 p-sm-4"> 
+							<div class="w-100 mt-auto">
+								<!-- Card category -->
+								@if (featuredContent.Categories != null && featuredContent.Categories.Any())
+								{
+
+									@foreach (var category in featuredContent.Categories.Select(x => x.Name).OrderBy(y => y))
+									{
+										<a href="#" class="badge text-bg-danger mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>@category</a>
+									}
+
+								}
+								
+								<!-- Card title -->
+								<h2 class="text-white heading-7 text-color-white"><a href="@featuredContent.Url()" class="btn-link stretched-link text-reset">@featuredContent.Title</a></h2>
+								<p class="text-white">@featuredContent.Subtitle</p>
+								<!-- Card info -->
+								<ul class="nav nav-divider text-white-force align-items-center d-none d-sm-inline-block">
+									<li class="nav-item text-color-white">@featuredContent.ArticleDate.ToString("MMMM dd, yyyy")</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				
+				}
+			}
+			</div>
+			<!-- Right small cards -->
+			<div class="col-lg-6 latest-article-card">
+			<h1 class="heading-7 heading-latest-article"><svg class="hourglass-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M32 0C14.3 0 0 14.3 0 32S14.3 64 32 64l0 11c0 42.4 16.9 83.1 46.9 113.1L146.7 256 78.9 323.9C48.9 353.9 32 394.6 32 437l0 11c-17.7 0-32 14.3-32 32s14.3 32 32 32l32 0 256 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-11c0-42.4-16.9-83.1-46.9-113.1L237.3 256l67.9-67.9c30-30 46.9-70.7 46.9-113.1l0-11c17.7 0 32-14.3 32-32s-14.3-32-32-32L320 0 64 0 32 0zM96 75l0-11 192 0 0 11c0 19-5.6 37.4-16 53L112 128c-10.3-15.6-16-34-16-53zm16 309c3.5-5.3 7.6-10.3 12.1-14.9L192 301.3l67.9 67.9c4.6 4.6 8.6 9.6 12.1 14.9L112 384z" /></svg>Today's top highlights</h1>
+
+				<div class="row g-4">
+				@foreach (var latestArticle in pageOfArticles.Take(1))
+				{
+					<!-- First Card (Full Width) -->
+					<div class="col-12">
+						<div class="card card-overlay-bottom card-grid-sm card-bg-scale" style="background-image:url(/media/xhdpcgmz/bg-02.jpg); background-position: center left; background-size: cover;">
+							<!-- Card Image overlay -->
+							<div class="card-img-overlay d-flex align-items-center p-3 p-sm-4">
+								<div class="w-100 mt-auto">
+									<!-- Card category -->
+									@if (latestArticle.Categories != null && latestArticle.Categories.Any())
+									{
+
+										@foreach (var category in latestArticle.Categories.Select(x => x.Name).OrderBy(y => y))
+										{
+											<a href="#" class="badge text-bg-warning mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>@category</a>
+										}
+
+									}
+									<!-- Card title -->
+									<h1 class="heading-7 text-white">
+										<a href="@latestArticle.Url()" class="btn-link stretched-link text-reset">@latestArticle.Title</a>
+									</h1>
+									<!-- Card info -->
+									<ul class="nav nav-divider text-white-force align-items-center d-none d-sm-inline-block">
+										<li class="nav-item text-color-white">@latestArticle.ArticleDate.ToString("MMMM dd, yyyy")</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+				
+				@foreach (var latestArticle in pageOfArticles.Skip(1).Take(2))
+				{
+					<!-- Next Two Cards (Half Width) -->
+					<div class="col-md-6">
+						<div class="card card-overlay-bottom card-grid-sm card-bg-scale" style="background-image:url(/media/xhdpcgmz/bg-02.jpg); background-position: center left; background-size: cover;">
+							<!-- Card Image overlay -->
+							<div class="card-img-overlay d-flex align-items-center p-3 p-sm-4">
+								<div class="w-100 mt-auto">
+									<!-- Card category -->
+									@if (latestArticle.Categories != null && latestArticle.Categories.Any())
+									{
+
+										@foreach (var category in latestArticle.Categories.Select(x => x.Name).OrderBy(y => y))
+										{
+											<a href="#" class="badge text-bg-warning mb-2"><i class="fas fa-circle me-2 small fw-bold"></i>@category</a>
+										}
+
+									}
+
+									<!-- Card title -->
+									<p class="text-white">
+										<a href="@latestArticle.Url()" class="btn-link stretched-link text-reset">@latestArticle.Title</a>
+									</p>
+									<!-- Card info -->
+									<ul class="nav nav-divider text-white-force align-items-center d-none d-sm-inline-block">
+										<li class="nav-item text-color-white">@latestArticle.ArticleDate.ToString("MMMM dd, yyyy")</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+
+				</div>
+			</div>
+	</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	  var slider = tns({
+		container: ".featured-article-card",
+		items: 1,
+		slideBy: "page",
+		autoplay: false,
+		controls: true,
+		loop: true,
+		autoplayButtonOutput: false,
+		speed: 1500
+		
+	  });
+
+	var prevButton = document.querySelector("button[data-controls='prev']");
+	var nextButton = document.querySelector("button[data-controls='next']");
+	if (prevButton) {
+
+	  prevButton.textContent = "";
+	  nextButton.textContent = "";
+
+	  // Create the icon element
+	  var prevIcon = document.createElement("i");
+	  var nextIcon = document.createElement("i");
+	  prevIcon.classList.add("fas", "fa-chevron-left");
+	  nextIcon.classList.add("fas", "fa-chevron-right");
+	  // Insert the icon inside the button
+	  prevButton.prepend(prevIcon);
+	  nextButton.prepend(nextIcon);
+	}
+
+	});
+</script>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function () {
+		const categoryColors = {};
+		const colorPalette = ["#f7c32e", "#4f9ef8", "#0cbc87", "#d6293e", "#2163e8", "#904085", "#212529"];
+
+		let colorIndex = 0;
+
+		document.querySelectorAll(".badge").forEach(el => {
+			let category = el.innerText.trim().toLowerCase();
+			if (!categoryColors[category]) {
+				categoryColors[category] = colorPalette[colorIndex % colorPalette.length];
+				colorIndex++;
+			}
+			el.style.backgroundColor = categoryColors[category];
+		});
+	});
+</script>

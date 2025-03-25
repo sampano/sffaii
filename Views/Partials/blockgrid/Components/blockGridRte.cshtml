@@ -1,0 +1,18 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (BlockGridRte)Model.Content;
+    var settings = (RteSettings)Model.Settings;
+
+}
+<style>
+    #block-@content.Key-.block-grid-rte {
+        padding-top: @(@settings?.PaddingTop + "px");
+        padding-bottom: @(@settings?.PaddingBottom + "px");
+        padding-left: @(@settings?.PaddingLeft + "px");
+        padding-right: @(@settings?.PaddingRight + "px");
+    }
+</style>
+<div id ="block-@content.Key-" class="block-grid-rte">
+@Model.Content.Value("blockGridRichText")
+</div>

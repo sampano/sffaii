@@ -1,0 +1,133 @@
+﻿@inherits UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
+@using Umbraco.Cms.Core.Models.Blocks;
+@{
+    var homePage = Model.AncestorOrSelf<ContentModels.Home>();
+
+    var logo = Model.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("footerCompanyLogo", fallback: Fallback.ToAncestors);
+
+    if (logo == null || string.IsNullOrEmpty(logo.MediaUrl()))
+    {
+
+    }
+    var socialLinks = Model.Value<IEnumerable<BlockListItem>>("socialIconLinks", fallback: Fallback.ToAncestors).Select(x => x.Content);
+    var quickLinks = Model.Value<IEnumerable<BlockListItem>>("quickLinks", fallback: Fallback.ToAncestors).Select(x => x.Content);
+    var companyLinks = Model.Value<IEnumerable<BlockListItem>>("company", fallback: Fallback.ToAncestors).Select(x => x.Content);
+    var legalLinks = Model.Value<IEnumerable<BlockListItem>>("legal", fallback: Fallback.ToAncestors).Select(x => x.Content);
+}
+<style>
+    .footer-social-links {
+        list-style: none;
+        padding-left: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .link-social {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        background-color: #fff;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    .link-social img {
+        width: 15px;
+    }
+</style>
+<!-- Footer-->
+
+<footer class="footer">
+    <div class="section">
+        <div class="container-7">
+            <div class="_4-columns">
+                <div class="column-8">
+                    <div class="logo-wrapper">
+                        @if (logo == null || string.IsNullOrEmpty(logo.MediaUrl()))
+                        {
+                            <img class="logo w" src="~/media/0w3fb02y/sample-logo.png" alt="sffaii logo" width="141" height="36" />
+                        }
+                        else
+                        {
+                            <img class="logo w" src="@logo.Url()" alt="sffaii logo" width="141" height="36" />
+                        }
+                    </div>
+                    <ul class="footer-social-links">
+                        @foreach(var socialLink in socialLinks) {
+                            var socialIcon = socialLink.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("socialIcon");
+                          <li>
+                              <a class="link-social" href="@socialLink.Value("link")">
+                                    <img src="@socialIcon.MediaUrl()" />
+                                </a>
+                          </li>
+                        }
+                    </ul>
+                </div>
+                <div class="content">
+                    <div class="text-4">ABOUT US</div>
+                    <ul class="footer-links">
+                         @if (quickLinks != null)
+                           {
+                             foreach (var quickLink in quickLinks)
+                              {
+                                 <li>
+                                     <a href="@quickLink.Value("link")"
+                                           aria-current="page"
+                                           class="link-block-6 w-inline-block w--current">
+                                            <div class="link-2">@quickLink.Value("footerLink")</div>
+                                      </a>
+                                 </li>
+                                }
+                            }
+                     </ul>
+                </div>
+                <div class="content">
+                    <div class="text-4">NTC</div>
+                    <ul class="footer-links">
+                        @if (companyLinks != null)
+                        {
+                            foreach (var comapnyLink in companyLinks)
+                            {
+                                <li>
+                                    <a href="@comapnyLink.Value("link")"
+                                       aria-current="page"
+                                       class="link-block-6 w-inline-block w--current">
+                                        <div class="link-2">@comapnyLink.Value("footerLink")</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="content">
+                    <div class="text-4">ORG NAME</div>
+                    <ul class="footer-links">
+                        @if (legalLinks != null)
+                        {
+                            foreach (var legalLink in legalLinks)
+                            {
+                                <li>
+                                    <a href="@legalLink.Value("link")"
+                                       aria-current="page"
+                                       class="link-block-6 w-inline-block w--current">
+                                        <div class="link-2">@legalLink.Value("footerLink")</div>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                    
+            </div>
+        </div>
+    </div>
+        <wrapper class="vectors-wrapper-9"></wrapper>
+        <div class="copyright">
+        <div class="text-10"> © @DateTime.Now.Year SOCKSARGEN FEDERATION OF FISHING & ALLIED INDUSTRIES, INC. All rights reserved.</div>
+        </div>
+</footer>
+

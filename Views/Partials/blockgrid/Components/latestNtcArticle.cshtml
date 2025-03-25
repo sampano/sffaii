@@ -1,0 +1,149 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Clean.Core.Extensions
+@using Clean.Core.Helpers
+@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@using Umbraco.Cms.Core.Models.PublishedContent
+@{
+
+    var row = Model.Content as LatestNtcArticle;
+    var settings = Model.Settings as LatestArticlesRowSettings;
+    if (settings?.Hide ?? false) { return; }
+
+    var spacingClasses = "";
+    if (Model.Settings is ISpacingProperties spacing)
+    {
+        spacingClasses = SpacingHelper.GetSpacingClasses(spacing.PaddingTop, spacing.PaddingBottom, spacing.PaddingLeft, spacing.PaddingRight, spacing.MarginTop, spacing.MarginBottom, spacing.MarginLeft, spacing.MarginRight);
+    }
+
+    var pageSize = row.PageSize;
+    var pageNumber = QueryStringHelper.GetIntFromQueryString(Context.Request.Query, "page", 1);
+    //Get the current page that holds the Block Grid
+    var parentPage = Umbraco.AssignedContentItem; // This gets the actual Umbraco page holding the block
+
+    var allArticles = parentPage?.Children<NtcArticle>()
+        .Where(x => x.IsVisible())
+        .OrderByDescending(x => x.ArticleDate) 
+        ?? Enumerable.Empty<NtcArticle>();
+            
+    var pageOfArticles = allArticles.Skip((pageNumber - 1) * pageSize).Take(pageSize);
+    var totalItemCount = allArticles.Count();
+    var pageCount = totalItemCount > 0 ? Math.Ceiling((double)totalItemCount / pageSize) : 1;
+}
+
+<style>
+    .article-card {
+        width: 100%;
+    }
+
+    .article-column {
+        gap: 30px;
+        padding-top: 40px;
+    }
+
+    .up-hover {
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .up-hover:hover {
+            transform: translateY(-10px);
+        }
+
+    .article-category-list-container {
+        background-color: #e8effd;
+        padding: 10px;
+        margin-top: 40px;
+    }
+
+    .article-category-list {
+        list-style: none;
+        padding-left: 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 20px;
+    }
+
+        .article-category-list .badge {
+            /* background-color:#000; */
+            padding: 10px;
+            -webkit-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+        }
+
+            .article-category-list .badge:hover {
+                transform: translateY(-5px);
+            }
+
+</style>
+
+<div class="row clearfix @(spacingClasses)">
+    <div class="col-md-12 column article-column">
+
+    @foreach (var article in pageOfArticles)
+    {
+        var thumbnail = article.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("bannerImage");
+        bool.TryParse(article.Value<string>("showFullArticleOnListPage", fallback: Fallback.ToAncestors), out var showFullArticleOnListPage);
+            <div class="card article-card border rounded-3 up-hover p-4">
+                <div class="row g-3">
+                    <div class="col-lg-5">
+                        <!-- Title -->
+                        <h1 class="heading-7">
+                            <a href="@article.Url()" class="btn-link text-reset stretched-link">@(!string.IsNullOrWhiteSpace(article.Title) ? article.Title : article.Name)</a>
+                        </h1>
+                        <!-- Author info -->
+                        <div class="d-flex align-items-center position-relative mt-3">
+                        @* <div class="avatar me-2"> *@
+                        @*     <img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar"> *@
+                        @* </div> *@
+                            <div>
+                            @*<h5 class="mb-1"><a href="#" class="stretched-link text-reset btn-link">@Umbraco.GetDictionaryValue("Article.By")@Html.Raw("&nbsp;")@author.Name</a></h5>*@
+                                <ul class="nav align-items-center small">
+                                    <li class="nav-item"><i class="far fa-clock me-1"></i>@article.ArticleDate.ToString("MMMM dd, yyyy")</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Detail -->
+                    <div class="col-md-6 col-lg-4">
+                    @if (!string.IsNullOrWhiteSpace(article.Subtitle))
+                    {
+                            <p class="post-subtitle">@article.Subtitle</p>
+                    }
+                    </div>
+                    <!-- Image -->
+                    <div class="col-md-6 col-lg-3">
+                        <img class="rounded-3" src="@thumbnail.MediaUrl()" alt="Card image">
+                    </div>
+                </div>
+            </div>
+      
+    }
+
+    @if (row.ShowPagination)
+    {
+        @await Component.InvokeAsync("Pagination", new { totalItems = totalItemCount, url = row.ArticleList.Url(), pageNumber = pageNumber, pageSize = pageSize })
+    }
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const categoryColors = {};
+        const colorPalette = ["#f7c32e", "#4f9ef8", "#0cbc87", "#d6293e", "#2163e8", "#904085", "#212529"];
+
+        let colorIndex = 0;
+
+        document.querySelectorAll(".badge").forEach(el => {
+            let category = el.innerText.trim().toLowerCase();
+            if (!categoryColors[category]) {
+                categoryColors[category] = colorPalette[colorIndex % colorPalette.length];
+                colorIndex++;
+            }
+            el.style.backgroundColor = categoryColors[category];
+        });
+    });
+</script>

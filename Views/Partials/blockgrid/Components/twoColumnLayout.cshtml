@@ -1,0 +1,212 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (TwoColumnLayout)Model.Content;
+    var settings = (TwoColumnSettings?)Model.Settings;
+    var sectionBackgroundImage = content.BackgroundImage;
+    var backgroundImage = "";
+    var colOneDisplayClass = "";
+    var colOneJustifyConClass = "";
+    var colOneAlignItemsClass = "";
+    var colTwoDisplayClass = "";
+    var colTwoJustifyConClass = "";
+    var colTwoAlignItemsClass = "";
+    var colOneHeight = "";
+    var colTwoHeight = "";
+    var columnGap = "";
+    
+    @if(settings?.Gap != null) {
+
+        columnGap = settings.Gap.ToString() + "px";
+    }
+
+    @if (sectionBackgroundImage != null)
+    {
+        backgroundImage = sectionBackgroundImage.Url();
+
+    }
+
+    @if(settings?.ColOneDisplay != null ) {
+
+        colOneDisplayClass = settings.ColOneDisplay.ToLower();
+    }
+
+    @if (settings?.ColOneJustifyContent != null)
+    {
+
+        colOneJustifyConClass = settings.ColOneJustifyContent.ToLower();
+    }
+
+    @if (settings?.ColOneAlignItems != null)
+    {
+
+        colOneAlignItemsClass = settings.ColOneAlignItems.ToLower();
+    }
+
+    @if (settings?.ColTwoDisplay != null)
+    {
+
+        colTwoDisplayClass = settings.ColTwoDisplay.ToLower();
+    }
+
+    @if (settings?.ColTwoJustifyContent != null)
+    {
+
+        colTwoJustifyConClass = settings.ColTwoJustifyContent.ToLower();
+    }
+
+    @if (settings?.ColTwoAlignItems != null)
+    {
+
+        colTwoAlignItemsClass = settings.ColTwoAlignItems.ToLower();
+    }
+
+    @if (settings?.ColOneHeight != null)
+    {
+
+        colOneHeight = settings.ColOneHeight.ToString();
+    }
+
+    @if (settings?.ColTwoHeight != null)
+    {
+
+        colTwoHeight = settings.ColTwoHeight.ToString();
+
+    } 
+}
+<style>
+    #block-@content.Key-.two-column-layout {
+        padding-top: @(@settings?.PaddingTop + "px");
+        padding-bottom: @(@settings?.PaddingBottom + "px");
+        padding-left: @(@settings?.PaddingLeft + "px");
+        padding-right: @(@settings?.PaddingRight + "px");
+    }
+
+    .two-column-layout .umb-block-grid__area-container {
+    display: flex;
+    align-items: center;
+    gap: @columnGap;
+}
+
+.two-column-layout .umb-block-grid__area {
+    width: 50%;
+    height: 610px;
+}
+
+    #block-@content.Key-.two-column-layout.col-1-width .umb-block-grid__area:nth-of-type(1) {
+        width: @(@settings?.ColWidth.ToString() == "0" ? "50%" : @settings?.ColWidth.ToString() + "%");
+    }
+
+    #block-@content.Key-.two-column-layout.col-1-width .umb-block-grid__area:nth-of-type(2) {
+        width: @(@settings?.ColTwoWidth.ToString() == "0" ? "50%" : @settings?.ColTwoWidth.ToString() + "%");
+    }
+
+    .two-column-layout.col-1-display-flex .umb-block-grid__area:nth-of-type(1) {
+    display: flex;
+}
+
+    .two-column-layout.col-2-display-flex .umb-block-grid__area:nth-of-type(2) {
+        display: flex;
+}
+
+    .two-column-layout.col-1-display-block .umb-block-grid__area:nth-of-type(1) {
+    display: block;
+}
+
+    .two-column-layout.col-2-display-block .umb-block-grid__area:nth-of-type(2) {
+        display: block;
+}
+
+    .two-column-layout.col-1-display-inline .umb-block-grid__area:nth-of-type(1) {
+        display: inline;
+    }
+
+    .two-column-layout.col-2-display-inline .umb-block-grid__area:nth-of-type(2) {
+        display: inline;
+    }
+
+    .two-column-layout.col-1-display-inline-block .umb-block-grid__area:nth-of-type(1) {
+        display: inline-block;
+    }
+
+    .two-column-layout.col-2-display-inline-block .umb-block-grid__area:nth-of-type(2) {
+        display: inline-block;
+    }
+
+    .two-column-layout.col-1-justify-content-start .umb-block-grid__area:nth-of-type(1) {
+        justify-content: flex-start;
+    }
+
+    .two-column-layout.col-2-justify-content-start .umb-block-grid__area:nth-of-type(2) {
+        justify-content: flex-start;
+    }
+
+    .two-column-layout.col-1-justify-content-end .umb-block-grid__area:nth-of-type(1) {
+        justify-content: flex-end;
+    }
+
+    .two-column-layout.col-2-justify-content-end .umb-block-grid__area:nth-of-type(2) {
+        justify-content: flex-end;
+    }
+
+    .two-column-layout.col-1-justify-content-center .umb-block-grid__area:nth-of-type(1) {
+        justify-content: center;
+    }
+
+    .two-column-layout.col-2-justify-content-center .umb-block-grid__area:nth-of-type(2) {
+        justify-content: center;
+    }
+
+    .two-column-layout.col-1-align-items-start .umb-block-grid__area:nth-of-type(1) {
+        align-items: flex-start;
+    }
+
+    .two-column-layout.col-2-align-items-start .umb-block-grid__area:nth-of-type(2) {
+        align-items: flex-start;
+    }
+
+    .two-column-layout.col-1-align-items-end .umb-block-grid__area:nth-of-type(1) {
+        align-items: flex-end;
+    }
+
+    .two-column-layout.col-2-align-items-end .umb-block-grid__area:nth-of-type(2) {
+        align-items: flex-end;
+    }
+
+    .two-column-layout.col-1-align-items-center .umb-block-grid__area:nth-of-type(1) {
+        align-items: center;
+    }
+
+    .two-column-layout.col-2-align-items-center .umb-block-grid__area:nth-of-type(2) {
+        align-items: center;
+    }
+
+    #block-@content.Key- .umb-block-grid__area:nth-of-type(1) {
+            height: @(@settings?.ColOneHeight.ToString() == "0" ? "auto" : @settings?.ColOneHeight.ToString() +"px");
+    }
+
+    #block-@content.Key- .umb-block-grid__area:nth-of-type(2) {
+            height: @(@settings?.ColTwoHeight.ToString() == "0" ? "auto" : @settings?.ColTwoHeight.ToString() + "px");
+    }
+
+    @@media screen and (max-width: 900px) {
+        .two-column-layout .umb-block-grid__area-container {
+            flex-wrap: wrap; 
+        }
+
+        #block-@content.Key-.two-column-layout .umb-block-grid__area-container .umb-block-grid__area:nth-of-type(1) {
+            height: auto;
+            width: 100% !important;
+        }
+
+        #block-@content.Key-.two-column-layout .umb-block-grid__area-container .umb-block-grid__area:nth-of-type(2) {
+            height: auto;
+            width: 100% !important;
+        }
+    }
+
+</style>
+
+<div id="block-@content.Key-" class="two-column-layout col-1-width col-2-width col-1-height col-2-height col-1-display-@colOneDisplayClass col-1-justify-content-@colOneJustifyConClass col-1-align-items-@colOneAlignItemsClass col-2-display-@colTwoDisplayClass col-2-justify-content-@colTwoJustifyConClass col-2-align-items-@colTwoAlignItemsClass">
+    @await Html.GetBlockGridItemAreasHtmlAsync(Model)
+</div>

@@ -1,0 +1,349 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@using Umbraco.Cms.Core.Models
+@{
+    var content = (SponsorsCard)Model.Content;
+}
+<style>
+    .sponsor-card-row {
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .sponsor-card-row .sponsor-card-container {
+        position: relative;
+    }
+    .sponsor-card-row .card-img-scale {
+        text-align: center;
+    }
+
+    .sponsor-card-row .gold-container .logo-card {
+        width: 10%;
+    }
+
+
+    .sponsor-card-row .silver-container .logo-card {
+        width: 8%;
+    }
+
+    .sponsor-card-row .bronze-container .logo-card {
+        width: 5%;
+    }
+
+    .sponsor-card-row .sponsor-container {
+        display: flex;
+        align-items: start;
+        flex-direction: row;
+        align-content: flex-start;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 0;
+       
+    }
+
+    .tns2-ow .sponsor-card-row .gold-container {
+         position: relative;
+    }
+
+    .sponsor-card-row .sponsor-container .logo-card-img {
+        width: 100%;
+    }
+
+    @@media screen and (max-width: 577px) {
+        .sponsor-card-row .sponsor-container.gold-container .logo-card {
+            width: 100%;
+        }
+    }
+
+    /* Style Prev/Next buttons */
+    .tns-prev, .tns-next {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+        /* Hover effect */
+        .tns-prev:hover, .tns-next:hover {
+            background-color: #0056b3;
+        }
+
+    /* Position buttons on sides */
+    .tns-prev {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .tns-next {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .sponsor-card-row .silver-container, .gold-container, .bronze-container {
+        position: relative;
+    }
+
+    .tns-controls button[data-controls="prev"], button[data-controls="next"] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px; /* Adjust width if needed */
+        height: 40px;
+        background: rgba(0, 123, 255, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 99;
+        transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+    }
+
+        .tns-controls button[data-controls="prev"]:hover,
+        .tns-controls button[data-controls="next"]:hover {
+            transform: translateY(-50%) scale(1.2); /* Scale up by 20% */
+            background: rgba(0, 123, 255, 1); /* Opacity set to 1 */
+        }
+
+    .tns-controls button[data-controls="prev"] {
+        left: -30px; /* Adjust this value */
+    }
+
+
+    .tns-controls button[data-controls="next"] {
+        right: -30px;
+    }
+
+    .sponsor-card-row .sponsor-card-container .tns-outer {
+        direction: rtl !important;
+    }
+
+    .sponsor-card-row .sponsor-card-container .tns-outer {
+        direction: ltr !important; /* Fix item order */
+    }
+
+</style>
+<div class="row sponsor-card-row">
+    <div class="sponsor-card-container sponsor-card-gold">
+    @if (content.GoldSponsorBlockList != null)
+    {
+        <p class="" style="color: #DAA520;"><strong>Gold Partner</strong></p>
+        <div class="column sponsor-container gold-container">
+        @foreach(var goldSponsorsBlock in content.GoldSponsorBlockList) {
+            var goldSponsor = goldSponsorsBlock.Content;
+            var goldCompanyLogo = goldSponsor.Value<MediaWithCrops>("logo");
+            <div class="logo-card col-sm-6 col-lg-4">
+                <div class="card-img-scale">
+                    <!-- Card Image -->
+                    <img class="logo-card-img" src="@goldCompanyLogo.MediaUrl()" alt="">
+                    <!-- Card Image overlay -->
+                    <div class="logo-card-img-overlay">
+                        <div class="">
+
+                            <!-- Card title -->
+                            <p><strong>@goldSponsor.Value("companyName")</strong></p>
+                            <!-- Card info -->
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+        </div>
+    }
+    </div>
+    <div class="sponsor-card-container sponsor-card-silver">
+@if (content.SilverSponsorBlockList != null) {
+     <p class="" style="color: #C0C0C0;"><strong>Silver Partner</strong></p>
+<div class="column sponsor-container silver-container">
+    
+    @foreach(var silverSponsorBlock in content.SilverSponsorBlockList) {
+         var silverSponsor = silverSponsorBlock.Content;
+        var silverCompanyLogo = silverSponsor.Value<MediaWithCrops>("logo");
+
+        <div class="logo-card col-sm-6 col-lg-4">
+            <div class="card-img-scale">
+                <!-- Card Image -->
+                    <img class="logo-card-img" src="@silverCompanyLogo.MediaUrl()" alt="">
+                <!-- Card Image overlay -->
+                <div class="logo-card-img-overlay">
+                    <div class="">
+
+                        <!-- Card title -->
+                            <p><strong>@silverSponsor.Value("companyName")</strong></p>
+                        <!-- Card info -->
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+}
+    </div>
+    <div class="sponsor-card-container sponsor-card-bronze">
+@if (content.BronzeSponsorBlockList != null) {
+        <p class="" style="color: #cd7f32;"><strong>Bronze Partner</strong></p>
+<div class="column sponsor-container bronze-container">
+
+    @foreach (var bronzeSponsorBlock in content.BronzeSponsorBlockList)
+    {
+        var bronzeSponsor = bronzeSponsorBlock.Content;
+        var bronzeCompanyLogo = bronzeSponsor.Value<MediaWithCrops>("logo");
+       
+            <div class="logo-card col-sm-6 col-lg-4">
+                <div class="card-img-scale">
+                    <!-- Card Image -->
+                    <img class="logo-card-img" src="@bronzeCompanyLogo.MediaUrl()" alt="">
+                    <!-- Card Image overlay -->
+                    <div class="logo-card-img-overlay">
+                        <div class="">
+
+                            <!-- Card title -->
+                            <p><strong>@bronzeSponsor.Value("companyName")</strong></p>
+                            <!-- Card info -->
+                            <p></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+</div>
+}
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+             var slider = tns({
+               container: ".gold-container",
+               items: 6,
+               slideBy: "page",
+               autoplay: true,
+               autoplayButtonOutput: false,
+               controls: true,
+               loop: true,
+               controls: false,
+               speed: 2500,
+               responsive: {
+                   1200: { items: 6 },  // 4 items for screens ≥ 1200px
+                   992: { items: 3 },   // 3 items for screens ≥ 992px
+                   768: { items: 2 },   // 2 items for screens ≥ 768px
+                   1: { items: 1 }    // 1 item for screens ≥ 480px
+                 }
+             });
+
+           var prevButton = document.querySelector("button[data-controls='prev']");
+           var nextButton = document.querySelector("button[data-controls='next']");
+           console.log()
+           if (prevButton) {
+
+             prevButton.textContent = "";
+             nextButton.textContent = "";
+
+             // Create the icon element
+             var prevIcon = document.createElement("i");
+             var nextIcon = document.createElement("i");
+             prevIcon.classList.add("fas", "fa-chevron-left");
+             nextIcon.classList.add("fas", "fa-chevron-right");
+             // Insert the icon inside the button
+             prevButton.prepend(prevIcon);
+             nextButton.prepend(nextIcon);
+           }
+
+           });
+           
+</script>
+  <script>
+        document.addEventListener("DOMContentLoaded", function () {
+             var slider = tns({
+               container: ".silver-container",
+               items: 8,
+               slideBy: "page",
+               autoplay: true,
+               autoplayButtonOutput: false,
+               controls: true,
+               loop: true,
+               controls: false,
+               speed: 1500,
+               responsive: {
+                   1200: { items: 8 },  // 4 items for screens ≥ 1200px
+                   992: { items: 6 },   // 3 items for screens ≥ 992px
+                   768: { items: 3 },   // 2 items for screens ≥ 768px
+                   1: { items: 2 }    // 1 item for screens ≥ 480px
+                 }
+             });
+
+           var prevButton = document.querySelector(".sponsor-card-silver button[data-controls='prev']");
+           var nextButton = document.querySelector(".sponsor-card-silver button[data-controls='next']");
+           if (prevButton) {
+
+             prevButton.textContent = "";
+             nextButton.textContent = "";
+
+             // Create the icon element
+             var prevIcon = document.createElement("i");
+             var nextIcon = document.createElement("i");
+             prevIcon.classList.add("fas", "fa-chevron-left");
+             nextIcon.classList.add("fas", "fa-chevron-right");
+             // Insert the icon inside the button
+             prevButton.prepend(prevIcon);
+             nextButton.prepend(nextIcon);
+           }
+
+           });
+
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+             var slider = tns({
+               container: ".bronze-container",
+               items: 10,
+               slideBy: "page",
+               autoplay: true,
+               autoplayButtonOutput: false,
+               controls: true,
+               loop: true,
+               controls: false,
+               speed: 2000,
+               responsive: {
+                   1200: { items: 10 },  // 4 items for screens ≥ 1200px
+                   992: { items: 8 },   // 3 items for screens ≥ 992px
+                   768: { items: 6 },   // 2 items for screens ≥ 768px
+                   1: { items: 3 }    // 1 item for screens ≥ 480px
+                 }
+             });
+
+           var prevButton = document.querySelector(".sponsor-card-bronze button[data-controls='prev']");
+           var nextButton = document.querySelector(".sponsor-card-bronze button[data-controls='next']");
+           if (prevButton) {
+
+             prevButton.textContent = "";
+             nextButton.textContent = "";
+
+             // Create the icon element
+             var prevIcon = document.createElement("i");
+             var nextIcon = document.createElement("i");
+             prevIcon.classList.add("fas", "fa-chevron-left");
+             nextIcon.classList.add("fas", "fa-chevron-right");
+             // Insert the icon inside the button
+             prevButton.prepend(prevIcon);
+             nextButton.prepend(nextIcon);
+           }
+
+           });
+
+    </script>

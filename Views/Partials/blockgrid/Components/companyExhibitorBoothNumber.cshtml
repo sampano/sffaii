@@ -1,0 +1,70 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (CompanyExhibitorBoothNumber)Model.Content;
+
+}
+<style>
+    table {
+    width: 100%;
+    border-collapse: collapse;
+
+    }
+
+    th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 16px;
+    }
+
+    th {
+    background-color: #c8c8ed;
+    }
+
+    tbody tr:nth-child(even) {
+     background-color: #f9f9f9;
+    }
+
+    tbody tr:nth-child(odd) {
+     background-color: #ffffff;
+    }
+
+    .block-company-exhibitor {
+        height: 500px;
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    @@media screen and (max-width: 900px) {
+        .block-company-exhibitor {
+            height: auto;
+            overflow-y: auto;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="block-company-exhibitor">
+    <h2 class="heading-7">Exhibitor Company Booth List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Booth Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var block in content.BlockList) {
+
+            var company = block.Content as ExhibitorBoothNumber;
+
+            <tr>
+                <td>@company?.CompanyName</td>
+                <td>@company?.BoothNumber.ToString()</td>
+            </tr>
+            }
+           
+        </tbody>
+    </table>
+</div>

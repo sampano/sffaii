@@ -1,0 +1,288 @@
+﻿@using Umbraco.Cms.Core
+@using Clean.Core.Models.ViewModels
+@using Umbraco.Extensions
+@using Clean.Core.Extensions
+@using Clean.Core.Helpers
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@{
+    Layout = "master.cshtml";
+    var content = Model as NtcArticle;
+    var bannerImage = "";
+    var backgroundGradient = "";
+    @if (content.BannerImage != null)
+    {
+        bannerImage = content.BannerImage.Url();
+
+    }
+
+    var articleList = content?.Parent() as ArticleList;
+    var articles = articleList?.Children<Article>(); // Fetch all articles under the ArticleList
+
+    @if (content?.BackgroundGradient != null)
+    {
+        if (content.BackgroundGradient.ToLower() == "background gradient 1")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(2,0,36,0.8) 0%, rgba(9,9,121,0.3) 35%, rgba(0,212,255,0.1) 100%),";
+
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 2")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(247,195,46,0.7) 0%, rgba(150,186,65,0.2) 35%, rgba(62,164,101,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 3")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(214,41,62,0.8) 0%, rgba(189,43,107,0.2) 35%, rgba(144,64,133,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 4")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(33,37,41,0.8) 0%, rgba(35,78,90,0.5) 35%, rgba(16,124,124,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 5")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(255,17,166,0.5) 0%, rgba(255,99,114,0.3) 35%, rgba(255,159,80,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 6")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(217,22,86,0.8) 0%, rgba(235,91,0,0.5) 45%, rgba(255,178,0,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 7")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(93,135,54,0.8) 0%, rgba(128,157,60,0.4) 45%, rgba(169,196,108,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 8")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(2,21,38,0.7) 0%, rgba(3,52,110,0.5) 45%, rgba(110,172,218,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 9")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(241,74,0,0.8) 0%, rgba(198,35,0,0.5) 45%, rgba(80,0,115,0.1) 100%),";
+        }
+        else if (content.BackgroundGradient.ToLower() == "background gradient 10")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(21,0,80,0.5) 45%, rgba(63,0,113,0.1) 100%),";
+        }
+
+    }
+}
+
+<style>
+    .article-banner-container {
+        height: 460px;
+        max-width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        padding-left: 0;
+        display: flex;
+    }
+
+    .article-banner {
+        text-align: center;
+    }
+
+    .article-nav-item {
+        color: #fff;
+    }
+
+    .article-nav-items {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .related-article-slider {
+        gap: 20px;
+    }
+
+        .related-article-slider .card-img-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+            border: none;
+        }
+
+        .related-article-slider .card {
+            border: none;
+        }
+
+        .related-article-slider .card-body {
+            -webkit-box-flex: 1;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+            background-color: #e8effd;
+            min-height: 180px;
+            height: auto;
+        }
+
+        .related-article-slider .card-img {
+            height: 275px;
+            object-fit: cover;
+            object-position: center;
+        }
+
+    .tns-nav {
+        display: none !important;
+    }
+
+    .tns-controls {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    /* Style Prev/Next buttons */
+    .tns-prev, .tns-next {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+
+        /* Hover effect */
+        .tns-prev:hover, .tns-next:hover {
+            background-color: #0056b3;
+        }
+
+    /* Position buttons on sides */
+    .tns-prev {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .tns-next {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .related-article-container {
+        position: relative;
+    }
+
+    .tns-controls button[data-controls="prev"], button[data-controls="next"] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px; /* Adjust width if needed */
+        height: 40px;
+        background: rgba(0, 123, 255, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 99;
+        transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+    }
+
+        .tns-controls button[data-controls="prev"]:hover,
+        .tns-controls button[data-controls="next"]:hover {
+            transform: translateY(-50%) scale(1.2); /* Scale up by 20% */
+            background: rgba(0, 123, 255, 1); /* Opacity set to 1 */
+        }
+
+    .tns-controls button[data-controls="prev"] {
+        left: 60px; /* Adjust this value */
+    }
+
+
+    .tns-controls button[data-controls="next"] {
+        right: 60px;
+    }
+</style>
+<section style="background-image: @backgroundGradient url(@bannerImage);" class="hero-section">
+    <div class="container w-container">
+        <div class="article-banner-container">
+            <div class="article-banner w-100 my-auto">
+                <!-- Card title -->
+                <h1 class="heading-2 text-white display-5">@content.Title</h1>
+                <!-- Card info -->
+                <ul class="article-nav-items text-white-force align-items-center justify-content-center">
+                    <li class="article-nav-item"><strong>@Html.Raw("&nbsp;")@content.ArticleDate.ToString("MMMM dd, yyyy")</strong></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+@await Html.GetBlockGridHtmlAsync(Model, "blockGrid")
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const categoryColors = {};
+        const colorPalette = ["#f7c32e", "#4f9ef8", "#0cbc87", "#d6293e", "#2163e8", "#904085", "#212529"];
+
+        let colorIndex = 0;
+
+        document.querySelectorAll(".badge").forEach(el => {
+            let category = el.innerText.trim().toLowerCase();
+            if (!categoryColors[category]) {
+                categoryColors[category] = colorPalette[colorIndex % colorPalette.length];
+                colorIndex++;
+            }
+            el.style.backgroundColor = categoryColors[category];
+        });
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var slider = tns({
+        container: ".related-article-slider",
+        items: 4,
+        slideBy: "page",
+        autoplay: false,
+        controls: true,
+        loop: true,
+        speed: 400,
+        responsive: {
+            1200: { items: 4 },  // 4 items for screens ≥ 1200px
+            992: { items: 3 },   // 3 items for screens ≥ 992px
+            768: { items: 2 },   // 2 items for screens ≥ 768px
+            1: { items: 1 }    // 1 item for screens ≥ 480px
+          }
+      });
+
+    var prevButton = document.querySelector("button[data-controls='prev']");
+    var nextButton = document.querySelector("button[data-controls='next']");
+    if (prevButton) {
+
+      prevButton.textContent = "";
+      nextButton.textContent = "";
+
+      // Create the icon element
+      var prevIcon = document.createElement("i");
+      var nextIcon = document.createElement("i");
+      prevIcon.classList.add("fas", "fa-chevron-left");
+      nextIcon.classList.add("fas", "fa-chevron-right");
+      // Insert the icon inside the button
+      prevButton.prepend(prevIcon);
+      nextButton.prepend(nextIcon);
+    }
+
+    });
+</script>

@@ -1,0 +1,378 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (FourColumnLayout)Model.Content;
+    var settings = (FourColumnSettings?)Model.Settings;
+    var sectionBackgroundImage = content.BackgroundImage;
+    var backgroundImage = "";
+    var colOneDisplayClass = "";
+    var colOneJustifyConClass = "";
+    var colOneAlignItemsClass = "";
+    var colTwoDisplayClass = "";
+    var colTwoJustifyConClass = "";
+    var colTwoAlignItemsClass = "";
+    var colThreeDisplayClass = "";
+    var colThreeJustifyConClass = "";
+    var colThreeAlignItemsClass = "";
+    var colFourDisplayClass = "";
+    var colFourJustifyConClass = "";
+    var colFourAlignItemsClass = "";
+    var colOneHeight = "";
+    var colTwoHeight = "";
+    var colThreeHeight = "";
+    var colFourHeight = "";
+
+    var columnGap = "";
+    
+    @if(settings?.Gap != null) {
+
+        columnGap = settings.Gap.ToString() + "px";
+    }
+
+    @if (sectionBackgroundImage != null)
+    {
+        backgroundImage = sectionBackgroundImage.Url();
+
+    }
+
+    @if(settings?.ColOneDisplay != null ) {
+
+        colOneDisplayClass = settings.ColOneDisplay.ToLower();
+    }
+
+    @if (settings?.ColOneJustifyContent != null)
+    {
+
+        colOneJustifyConClass = settings.ColOneJustifyContent.ToLower();
+    }
+
+    @if (settings?.ColOneAlignItems != null)
+    {
+
+        colOneAlignItemsClass = settings.ColOneAlignItems.ToLower();
+    }
+
+    @if (settings?.ColTwoDisplay != null)
+    {
+
+        colTwoDisplayClass = settings.ColTwoDisplay.ToLower();
+    }
+
+    @if (settings?.ColTwoJustifyContent != null)
+    {
+
+        colTwoJustifyConClass = settings.ColTwoJustifyContent.ToLower();
+    }
+
+    @if (settings?.ColTwoAlignItems != null)
+    {
+
+        colTwoAlignItemsClass = settings.ColTwoAlignItems.ToLower();
+    }
+
+    @if (settings?.ColThreeDisplay != null)
+    {
+
+        colThreeDisplayClass = settings.ColThreeDisplay.ToLower();
+    }
+
+    @if (settings?.ColThreeJustifyContent != null)
+    {
+
+        colThreeJustifyConClass = settings.ColThreeJustifyContent.ToLower();
+    }
+
+    @if (settings?.ColThreeAlignItems != null)
+    {
+
+        colThreeAlignItemsClass = settings.ColThreeAlignItems.ToLower();
+    }
+
+    //
+
+    @if (settings?.ColFourDisplay != null)
+    {
+
+        colFourDisplayClass = settings.ColFourDisplay.ToLower();
+    }
+
+    @if (settings?.ColFourJustifyContent != null)
+    {
+
+        colFourJustifyConClass = settings.ColFourJustifyContent.ToLower();
+    }
+
+    @if (settings?.ColFourAlignItems != null)
+    {
+
+        colFourAlignItemsClass = settings.ColFourAlignItems.ToLower();
+    }
+
+    @if (settings?.ColOneHeight != null)
+    {
+
+        colOneHeight = settings.ColOneHeight.ToString();
+    }
+
+    @if (settings?.ColTwoHeight != null)
+    {
+
+        colTwoHeight = settings.ColTwoHeight.ToString();
+
+    }
+    
+    @if (settings?.ColThreeHeight != null)
+    {
+
+        colThreeHeight = settings.ColThreeHeight.ToString();
+
+    }
+
+    @if (settings?.ColFourHeight != null)
+    {
+
+        colFourHeight = settings.ColFourHeight.ToString();
+
+    }
+}
+<style>
+    #block-@content.Key-.six-column-layout {
+        padding-top: @(@settings?.PaddingTop + "px");
+        padding-bottom: @(@settings?.PaddingBottom + "px");
+        padding-left: @(@settings?.PaddingLeft + "px");
+        padding-right: @(@settings?.PaddingRight + "px");
+    }
+
+    .four-column-layout .umb-block-grid__area-container {
+        display: flex;
+        align-items: center;
+        gap: @columnGap;
+    }
+
+    .four-column-layout .umb-block-grid__area {
+        width: 25%;
+        /* height: 610px; */
+    }
+
+    #block-@content.Key-.four-column-layout.col-1-width .umb-block-grid__area:nth-of-type(1) {
+        width: @(@settings?.ColWidth.ToString() == "0" ? "50%" : @settings?.ColWidth.ToString() + "%");
+    }
+
+    #block-@content.Key-.four-column-layout.col-2-width .umb-block-grid__area:nth-of-type(2) {
+        width: @(@settings?.ColTwoWidth.ToString() == "0" ? "50%" : @settings?.ColTwoWidth.ToString() + "%");
+    }
+
+    #block-@content.Key-.four-column-layout.col-3-width .umb-block-grid__area:nth-of-type(3) {
+        width: @(@settings?.ColThreeWidth.ToString() == "0" ? "50%" : @settings?.ColThreeWidth.ToString() + "%");
+    }
+
+    #block- @content.Key -.four-column-layout.col-4-width .umb-block-grid__area:nth-of-type(4) {
+        width: @(@settings?.ColFourWidth.ToString() == "0" ? "50%" : @settings?.ColFourWidth.ToString() + "%");
+    }
+    .four-column-layout.col-1-display-flex .umb-block-grid__area:nth-of-type(1) {
+        display: flex;
+    }
+
+    .four-column-layout.col-2-display-flex .umb-block-grid__area:nth-of-type(2) {
+        display: flex;
+    }
+
+    .four-column-layout.col-3-display-flex .umb-block-grid__area:nth-of-type(3) {
+        display: flex;
+    }
+
+    .four-column-layout.col-4-display-flex .umb-block-grid__area:nth-of-type(4) {
+        display: flex;
+    }
+
+    .four-column-layout.col-1-display-block .umb-block-grid__area:nth-of-type(1) {
+        display: block;
+    }
+
+    .four-column-layout.col-2-display-block .umb-block-grid__area:nth-of-type(2) {
+        display: block;
+    }
+
+    .four-column-layout.col-3-display-block .umb-block-grid__area:nth-of-type(3) {
+        display: block;
+    }
+
+    .four-column-layout.col-4-display-block .umb-block-grid__area:nth-of-type(4) {
+        display: block;
+    }
+
+    .four-column-layout.col-1-display-inline .umb-block-grid__area:nth-of-type(1) {
+        display: inline;
+    }
+
+    .four-column-layout.col-2-display-inline .umb-block-grid__area:nth-of-type(2) {
+        display: inline;
+    }
+
+    .four-column-layout.col-3-display-inline .umb-block-grid__area:nth-of-type(3) {
+        display: inline;
+    }
+
+    .four-column-layout.col-4-display-inline .umb-block-grid__area:nth-of-type(4) {
+        display: inline;
+    }
+
+    .four-column-layout.col-1-display-inline-block .umb-block-grid__area:nth-of-type(1) {
+        display: inline-block;
+    }
+
+    .four-column-layout.col-2-display-inline-block .umb-block-grid__area:nth-of-type(2) {
+        display: inline-block;
+    }
+
+    .four-column-layout.col-3-display-inline-block .umb-block-grid__area:nth-of-type(3) {
+        display: inline-block;
+    }
+
+    .four-column-layout.col-4-display-inline-block .umb-block-grid__area:nth-of-type(4) {
+        display: inline-block;
+    }
+
+    .four-column-layout.col-1-justify-content-start .umb-block-grid__area:nth-of-type(1) {
+        justify-content: flex-start;
+    }
+
+    .four-column-layout.col-2-justify-content-start .umb-block-grid__area:nth-of-type(2) {
+        justify-content: flex-start;
+    }
+
+    .four-column-layout.col-3-justify-content-start .umb-block-grid__area:nth-of-type(3) {
+        justify-content: flex-start;
+    }
+
+    .four-column-layout.col-4-justify-content-start .umb-block-grid__area:nth-of-type(4) {
+        justify-content: flex-start;
+    }
+
+    .four-column-layout.col-1-justify-content-end .umb-block-grid__area:nth-of-type(1) {
+        justify-content: flex-end;
+    }
+
+    .four-column-layout.col-2-justify-content-end .umb-block-grid__area:nth-of-type(2) {
+        justify-content: flex-end;
+    }
+
+    .four-column-layout.col-3-justify-content-end .umb-block-grid__area:nth-of-type(3) {
+        justify-content: flex-end;
+    }
+
+    .four-column-layout.col-4-justify-content-end .umb-block-grid__area:nth-of-type(4) {
+        justify-content: flex-end;
+    }
+
+    .four-column-layout.col-1-justify-content-center .umb-block-grid__area:nth-of-type(1) {
+        justify-content: center;
+    }
+
+    .four-column-layout.col-2-justify-content-center .umb-block-grid__area:nth-of-type(2) {
+        justify-content: center;
+    }
+
+    .four-column-layout.col-3-justify-content-center .umb-block-grid__area:nth-of-type(3) {
+        justify-content: center;
+    }
+
+    .four-column-layout.col-4-justify-content-center .umb-block-grid__area:nth-of-type(4) {
+        justify-content: center;
+    }
+
+    .four-column-layout.col-1-align-items-start .umb-block-grid__area:nth-of-type(1) {
+        align-items: flex-start;
+    }
+
+    .four-column-layout.col-2-align-items-start .umb-block-grid__area:nth-of-type(2) {
+        align-items: flex-start;
+    }
+
+    .four-column-layout.col-3-align-items-start .umb-block-grid__area:nth-of-type(3) {
+        align-items: flex-start;
+    }
+
+    .four-column-layout.col-4-align-items-start .umb-block-grid__area:nth-of-type(4) {
+        align-items: flex-start;
+    }
+
+    .four-column-layout.col-1-align-items-end .umb-block-grid__area:nth-of-type(1) {
+        align-items: flex-end;
+    }
+
+    .four-column-layout.col-2-align-items-end .umb-block-grid__area:nth-of-type(2) {
+        align-items: flex-end;
+    }
+
+    .four-column-layout.col-3-align-items-end .umb-block-grid__area:nth-of-type(3) {
+        align-items: flex-end;
+    }
+
+    .four-column-layout.col-4-align-items-end .umb-block-grid__area:nth-of-type(4) {
+        align-items: flex-end;
+    }
+
+    .four-column-layout.col-1-align-items-center .umb-block-grid__area:nth-of-type(1) {
+        align-items: center;
+    }
+
+    .four-column-layout.col-2-align-items-center .umb-block-grid__area:nth-of-type(2) {
+        align-items: center;
+    }
+    
+    .four-column-layout.col-3-align-items-center .umb-block-grid__area:nth-of-type(3) {
+        align-items: center;
+    }
+
+    .four-column-layout.col-4-align-items-center .umb-block-grid__area:nth-of-type(4) {
+        align-items: center;
+    }
+
+    #block-@content.Key- .umb-block-grid__area:nth-of-type(1) {
+        height: @(@settings?.ColOneHeight.ToString() == "0" ? "auto" : @settings?.ColOneHeight.ToString() + "px");
+    }
+
+    #block-@content.Key- .umb-block-grid__area:nth-of-type(2) {
+        height: @(@settings?.ColTwoHeight.ToString() == "0" ? "auto" : @settings?.ColTwoHeight.ToString() + "px"); 
+    }
+
+     #block-@content.Key- .umb-block-grid__area:nth-of-type(3) {
+        height: @(@settings?.ColThreeHeight.ToString() == "0" ? "auto" : @settings?.ColThreeHeight.ToString() + "px");
+    }
+
+    #block- @content.Key- .umb-block-grid__area:nth-of-type(4) {
+        height: @(@settings?.ColFourHeight.ToString() == "0" ? "auto" : @settings?.ColFourHeight.ToString() + "px");
+    }
+
+    @@media screen and (max-width: 900px) {
+        .four-column-layout .umb-block-grid__area-container {
+            flex-wrap: wrap; 
+        }
+
+        #block-@content.Key-.four-column-layout .umb-block-grid__area-container .umb-block-grid__area:nth-of-type(1) {
+            height: auto;
+            width: 100% !important;
+        }
+
+        #block-@content.Key-.four-column-layout .umb-block-grid__area-container .umb-block-grid__area:nth-of-type(2) {
+            height: auto;
+            width: 100% !important;
+        }
+
+         #block-@content.Key-.four-column-layout .umb-block-grid__area-container .umb-block-grid__area:nth-of-type(3) {
+            height: auto;
+            width: 100% !important;
+        }
+
+        #block-@content.Key-.four-column-layout .umb-block-grid__area-container .umb-block-grid__area:nth-of-type(4) {
+            height: auto;
+            width: 100% !important;
+        }
+    }
+
+</style>
+
+<div id="block-@content.Key-" class="four-column-layout col-1-width col-2-width col-3-width col-4-width col-1-height col-2-height col-3-height col-4-height col-1-display-@colOneDisplayClass col-1-justify-content-@colOneJustifyConClass col-1-align-items-@colOneAlignItemsClass col-2-display-@colTwoDisplayClass col-2-justify-content-@colTwoJustifyConClass col-2-align-items-@colTwoAlignItemsClass col-3-display-@colThreeDisplayClass col-3-justify-content-@colThreeJustifyConClass col-3-align-items-@colThreeAlignItemsClass  col-4-display-@colFourDisplayClass col-4-justify-content-@colFourJustifyConClass col-4-align-items-@colFourAlignItemsClass">
+    @await Html.GetBlockGridItemAreasHtmlAsync(Model)
+</div>

@@ -1,0 +1,82 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (Button)Model.Content;
+    var settings = (ButtonSettings)Model.Settings;
+    var buttonDisplay = "";
+    var buttonJustifyContent = "";
+    var buttonAlignItems = "";
+    if (settings?.Display != null)
+    {
+
+        buttonDisplay = settings.Display.ToLower();
+    }
+
+    @if (settings?.JustifyContent != null)
+    {
+
+        buttonJustifyContent = settings.JustifyContent.ToLower();
+    }
+
+    @if (settings?.AlignItems != null)
+    {
+
+        buttonAlignItems = settings.AlignItems.ToLower();
+    }
+}
+
+<style>
+    .button-container .button-primary-2 {
+         max-width: 180px;
+    }
+
+    .button-container .button-primary-2:hover {
+        background-color: #212529;
+    }
+
+    #block-@content.Key-.button-container.button-display-flex {
+        display: flex;
+    }
+
+    #block-@content.Key-.button-container.button-display-inline {
+        display: inline;
+    }
+
+    #block-@content.Key-.button-container.button-display-block {
+        display: end;
+    }
+
+    #block-@content.Key-.button-container.button-display-inline-block {
+        display: inline-block;
+    }
+
+    #block-@content.Key-.button-container.button-justify-content-start {
+        justify-content: flex-start;
+    }
+
+    #block-@content.Key-.button-container.button-justify-content-end {
+        justify-content: flex-end;
+    }
+
+    #block-@content.Key-.button-container.button-justify-content-center {
+        justify-content: center;
+    }
+
+    #block-@content.Key-.button-container.button-align-items-start {
+        align-items: center;
+    }
+
+    #block-@content.Key-.button-container.button-align-items-end {
+        align-items: flex-end;
+    }
+
+    
+    #@content.Key-.button-container.button-align-items-center {
+        align-items: center;
+    }
+</sty
+
+</style>
+<div id="block-@content.Key-" class="button-container button-display-@buttonDisplay button-justify-content-@buttonJustifyContent button-align-items-@buttonAlignItems">
+    <a href="@content.ButtonLink" class="button-primary-2 w-button">@content.ButtonName</a>
+</div>

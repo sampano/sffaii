@@ -1,0 +1,16 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (Scripts)Model.Content;
+}
+<style>
+    .scripts-container {
+        padding-bottom: 40px;
+    }
+    .scripts-container iframe {
+        width: 100%;
+    }
+</style>
+<div class="scripts-container">
+    @Html.Raw(content.Script)
+</div>

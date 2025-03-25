@@ -1,0 +1,86 @@
+/**umb_name:H1-Heading1*/
+h1.heading-2 {
+	margin-top: 0;
+font-family: Oswald, sans-serif;
+font-size: 45px;
+font-weight: 700;
+line-height: 120%;
+}
+
+/**umb_name:H1-Heading4*/
+h1.heading-4 {
+	margin-top: 0;
+    padding-top: 7px;
+    padding-left: 15px;
+    font-family: Raleway, sans-serif;
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 30px;
+}
+
+/**umb_name:H1-Heading5*/
+h1.heading-5 {
+	font-family: Abel, sans-serif;
+    font-size: 23px;
+    font-weight: 400;
+}
+
+/**umb_name:H1-Heading2*/
+h1.heading-7 {
+	text-align: left;
+    font-family: Oswald, sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 120%;
+}
+
+/**umb_name:H1-Heading6*/
+h1.heading-1 {
+	margin-top: 0;
+ font-size: 25px;
+ font-weight: 600;
+ line-height: 30px;
+}
+
+/**umb_name:p*/
+p {
+	font-family: Abel, sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 160%;
+}
+
+/**umb_name:Button 1*/
+.button-rte {
+	width: 169px;
+background-color: #e9e5e5;
+justify-content: center;
+align-items: center;
+padding: 12px 24px;
+height: 52px;
+font-size: 16px;
+text-decoration: none;
+}
+
+/**umb_name:Button 2*/
+.button-primary-2-rte {
+	width: 137px;
+    height: 52px;
+    color: #fff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background-color: #1b70a6;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+    padding: 12px 25px;
+    font-family: Abel, sans-serif;
+    font-size: 17px;
+    line-height: 20px;
+}
+
+/**umb_name:Text Color White*/
+.text-color-white {
+	color:#fff;
+background-color:#000;
+}

@@ -1,0 +1,72 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    @await Html.PartialAsync("~/Views/Partials/metaData.cshtml")
+    <!-- Font Awesome icons (free version)-->
+    <script defer src="https://use.fontawesome.com/releases/v6.5.1/js/all.js" crossorigin="anonymous" integrity="sha384-3ve3u7etWcm2heCe4TswfZSAYSg2jR/EJxRHuKM5foOiKS8IJL/xRlvmjCaHELBz"></script>
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Abel&family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+    <!-- Core theme CSS (includes Bootstrap)-->
+
+    <script type='text/javascript' src='https://platform-api.sharethis.com/js/sharethis.js#property=67c05bcb6aa9ea001960dab3&product=inline-share-buttons' async='async'></script>
+
+    <link href="https://cdn.prod.website-files.com/img/favicon.ico"
+          rel="shortcut icon"
+          type="image/x-icon" />
+    <link href="https://cdn.prod.website-files.com/img/webclip.png"
+          rel="apple-touch-icon" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css">
+    <link href="/clean-assets/css/styles.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/clean-assets/css/vs2015.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/clean-assets/css/highlightjs-copy.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/clean-assets/css/swiffy-slider.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="/css/style.css" rel="stylesheet" asp-append-version="true" />
+
+</head>
+<body>
+    @await Html.CachedPartialAsync("~/Views/Partials/mainNavigation.cshtml", model: Model, cacheTimeout: TimeSpan.FromMinutes(60))
+    @RenderBody()
+    @await Html.CachedPartialAsync("~/Views/Partials/footer.cshtml", model: Model, cacheTimeout: TimeSpan.FromMinutes(60))
+    <style>
+        .testimonial-card:hover .tagline-2 {
+            color: #fff !important;
+        }
+    </style>
+    <style>
+        @@media only screen and (min-width: 1540px) {
+            .hero-section
+
+        {
+            background-repeat: round;
+        }
+
+        }</style>
+    <style type="text/css">
+        @@font -face {
+            font-family: "Atlassian Sans";
+            font-style: normal;
+            font-weight: 400 653;
+            font-display: swap;
+            src: local("AtlassianSans"), local("Atlassian Sans Text"), url(https://ds-cdn.prod-east.frontend.public.atl-paas.net/assets/fonts/atlassian-sans/v1/AtlassianSans-latin.woff2) format("woff2");
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+    </style>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- Core theme JS-->
+    <script src="/clean-assets/js/scripts.js" asp-append-version="true"></script>
+    <script src="/clean-assets/js/highlight.min.js" asp-append-version="true"></script>
+    <script src="/clean-assets/js/highlightjs-copy.min.js" asp-append-version="true"></script>
+    <script src="/clean-assets/js/initHighlight.js" asp-append-version="true"></script>
+    <script src="/clean-assets/js/swiffy-slider.min.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+﻿@using Umbraco.Extensions
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@{
+    var content = (Section)Model.Content;
+    var settings = (SectionSettings)Model.Settings;
+    var sectionBackgroundImage = content.BackgroundImage;
+    var backgroundImage = "";
+    var sectionDisplayClass = "";
+    var sectionJustifyConClass = "";
+    var sectionAlignItemsClass = "";
+    var backgroundGradient = "";
+
+    @if (sectionBackgroundImage != null)
+    {
+        backgroundImage = sectionBackgroundImage.Url();
+
+    }
+
+    @if (settings?.Display != null)
+    {
+
+        sectionDisplayClass = settings.Display.ToLower();
+    }
+
+    @if (settings?.JustifyContent != null)
+    {
+
+        sectionJustifyConClass = settings.JustifyContent.ToLower();
+    }
+
+    @if (settings?.AlignItems != null)
+    {
+
+        sectionAlignItemsClass = settings.AlignItems.ToLower();
+    }
+
+    @if (settings?.BackgroundGradient != null) 
+    {
+        if (settings.BackgroundGradient.ToLower() == "background gradient 1")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(2,0,36,0.8) 0%, rgba(9,9,121,0.3) 35%, rgba(0,212,255,0.1) 100%),";
+
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 2")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(247,195,46,0.7) 0%, rgba(150,186,65,0.2) 35%, rgba(62,164,101,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 3")
+        {
+            
+            backgroundGradient = "linear-gradient(90deg, rgba(214,41,62,0.8) 0%, rgba(189,43,107,0.2) 35%, rgba(144,64,133,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 4")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(33,37,41,0.8) 0%, rgba(35,78,90,0.5) 35%, rgba(16,124,124,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 5")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(255,17,166,0.5) 0%, rgba(255,99,114,0.3) 35%, rgba(255,159,80,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 6")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(217,22,86,0.8) 0%, rgba(235,91,0,0.5) 45%, rgba(255,178,0,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 7")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(93,135,54,0.8) 0%, rgba(128,157,60,0.4) 45%, rgba(169,196,108,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 8")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(2,21,38,0.7) 0%, rgba(3,52,110,0.5) 45%, rgba(110,172,218,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 9")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(241,74,0,0.8) 0%, rgba(198,35,0,0.5) 45%, rgba(80,0,115,0.1) 100%),";
+        }
+        else if (settings.BackgroundGradient.ToLower() == "background gradient 10")
+        {
+
+            backgroundGradient = "linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(21,0,80,0.5) 45%, rgba(63,0,113,0.1) 100%),";
+        }
+
+    }
+
+}
+<style>
+    #block-@content.Key {
+        padding-top: @(@settings?.PaddingTop + "px");
+        padding-bottom: @(@settings?.PaddingBottom + "px");
+        padding-left: @(@settings?.PaddingLeft + "px");
+        padding-right: @(@settings?.PaddingRight + "px");
+    }
+
+    .container.section-display-block .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        display:block;
+
+    }
+
+    .container.section-display-inline .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        display: inline;
+    }
+
+
+    .container.section-display-inline-block .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        display: inline-block;
+    }
+
+
+    .container.section-display-flex .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        display: flex;
+    }
+
+    .container.section-justify-content-start .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        justify-content:flex-start;
+    }
+
+    .container.section-justify-content-end .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        justify-content: flex-end;
+    }
+
+    .container.section-justify-content-center .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        justify-content: center;
+    }
+
+
+    .container.section-align-items-start .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        align-items: flex-start;
+    }
+
+    .container.section-align-items-end .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        align-items: flex-end;
+    }
+
+    .container.section-align-items-center .umb-block-grid__area-container .umb-block-grid__area:nth-child(1) {
+        align-items: center;
+    }
+</style>
+
+<section id="block-@content.Key" class="section-one-column @settings?.CustomClasses" style="background-image: @backgroundGradient url(@backgroundImage)">
+    <div class="container w-container section-display-@sectionDisplayClass section-justify-content-@sectionJustifyConClass section-align-items-@sectionAlignItemsClass">
+        @await Html.GetBlockGridItemAreasHtmlAsync(Model)
+    </div>
+</section>
+
+
