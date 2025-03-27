@@ -3148,11 +3148,11 @@ textarea.w-input, textarea.w-select {
     align-items: center;
     display: flex;
 }
-
+/*
     .logo.w {
         filter: invert(58%);
     }
-
+*/
 ._4-columns {
     width: 100%;
     grid-column-gap: 24px;
