@@ -184,6 +184,20 @@
                 dropdownMenu.insertBefore(newLi, dropdownMenu.firstChild);
             }
 
+            if (dropdownMenu.classList.contains("dropdown-menu")) {
+               // Create a new anchor tag with the same properties as the original link
+                const newLinkDev = document.createElement("a");
+                newLinkDev.className = "mobile-dropdown-item"; // Same styling as other dropdown items
+                newLink.href = toggle.href;
+                newLink.textContent = toggle.textContent;
+
+                // Append link inside new li
+                newLi.appendChild(newLink);
+
+                // Insert as first child of dropdown menu
+                dropdownMenu.insertBefore(newLi, dropdownMenu.firstChild);
+            }
+
             // Toggle Dropdown Menus
             toggle.addEventListener("click", function (event) {
                 event.preventDefault(); // Prevent default link action

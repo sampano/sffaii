@@ -44,6 +44,11 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		string MetaName { get; }
+
+		/// <summary>Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		string PageTitle { get; }
 	}
 
 	/// <summary>SEO Controls</summary>
@@ -137,5 +142,18 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
 		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		public static string GetMetaName(ISEocontrols that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "metaName");
+
+		///<summary>
+		/// Title
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("pageTitle")]
+		public virtual string PageTitle => GetPageTitle(this, _publishedValueFallback);
+
+		/// <summary>Static getter for Title</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
+		[return: global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		public static string GetPageTitle(ISEocontrols that, IPublishedValueFallback publishedValueFallback) => that.Value<string>(publishedValueFallback, "pageTitle");
 	}
 }
