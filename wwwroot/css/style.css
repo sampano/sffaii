@@ -5663,3 +5663,27 @@ textarea.w-input, textarea.w-select {
         }
 
 }
+
+a.desktop-nav-link {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #0000001f;
+}
+
+a.desktop-nav-link:active {
+    color: #fff !important;
+    text-decoration: none;
+    background-color: #005E70 !important;
+}
+
+a.desktop-nav-link:hover, a.desktop-nav-link:focus {
+    color: #1e2125;
+    background-color: #e9ecef;
+}
+
+.dropdown-menu.show {
+    padding-top: 0;
+}
