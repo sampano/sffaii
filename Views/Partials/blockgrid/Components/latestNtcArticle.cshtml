@@ -23,9 +23,9 @@
 
     var allArticles = parentPage?.Children<NtcArticle>()
         .Where(x => x.IsVisible())
-        .OrderByDescending(x => x.ArticleDate) 
+        .OrderByDescending(x => x.ArticleDate)
         ?? Enumerable.Empty<NtcArticle>();
-            
+
     var pageOfArticles = allArticles.Skip((pageNumber - 1) * pageSize).Take(pageSize);
     var totalItemCount = allArticles.Count();
     var pageCount = totalItemCount > 0 ? Math.Ceiling((double)totalItemCount / pageSize) : 1;
@@ -81,10 +81,10 @@
 <div class="row clearfix @(spacingClasses)">
     <div class="col-md-12 column article-column">
 
-    @foreach (var article in pageOfArticles)
-    {
-        var thumbnail = article.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("bannerImage");
-        bool.TryParse(article.Value<string>("showFullArticleOnListPage", fallback: Fallback.ToAncestors), out var showFullArticleOnListPage);
+        @foreach (var article in pageOfArticles)
+        {
+            var thumbnail = article.Value<Umbraco.Cms.Core.Models.MediaWithCrops>("bannerImage");
+            bool.TryParse(article.Value<string>("showFullArticleOnListPage", fallback: Fallback.ToAncestors), out var showFullArticleOnListPage);
             <div class="card article-card border rounded-3 up-hover p-4">
                 <div class="row g-3">
                     <div class="col-lg-5">
@@ -94,23 +94,23 @@
                         </h1>
                         <!-- Author info -->
                         <div class="d-flex align-items-center position-relative mt-3">
-                        @* <div class="avatar me-2"> *@
-                        @*     <img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar"> *@
-                        @* </div> *@
+                            @* <div class="avatar me-2"> *@
+                            @*     <img class="avatar-img rounded-circle" src="assets/images/avatar/07.jpg" alt="avatar"> *@
+                            @* </div> *@
                             <div>
-                            @*<h5 class="mb-1"><a href="#" class="stretched-link text-reset btn-link">@Umbraco.GetDictionaryValue("Article.By")@Html.Raw("&nbsp;")@author.Name</a></h5>*@
+                                @*<h5 class="mb-1"><a href="#" class="stretched-link text-reset btn-link">@Umbraco.GetDictionaryValue("Article.By")@Html.Raw("&nbsp;")@author.Name</a></h5>*@
                                 <ul class="nav align-items-center small">
-                                    <li class="nav-item"><i class="far fa-clock me-1"></i>@article.ArticleDate.ToString("MMMM dd, yyyy")</li>
+                                    @*<li class="nav-item"><i class="far fa-clock me-1"></i>@article.ArticleDate.ToString("MMMM dd, yyyy")</li>*@
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <!-- Detail -->
                     <div class="col-md-6 col-lg-4">
-                    @if (!string.IsNullOrWhiteSpace(article.Subtitle))
-                    {
+                        @if (!string.IsNullOrWhiteSpace(article.Subtitle))
+                        {
                             <p class="post-subtitle">@article.Subtitle</p>
-                    }
+                        }
                     </div>
                     <!-- Image -->
                     <div class="col-md-6 col-lg-3">
@@ -118,13 +118,13 @@
                     </div>
                 </div>
             </div>
-      
-    }
 
-    @if (row.ShowPagination)
-    {
-        @await Component.InvokeAsync("Pagination", new { totalItems = totalItemCount, url = row.ArticleList.Url(), pageNumber = pageNumber, pageSize = pageSize })
-    }
+        }
+
+        @if (row.ShowPagination)
+        {
+            @await Component.InvokeAsync("Pagination", new { totalItems = totalItemCount, url = row.ArticleList.Url(), pageNumber = pageNumber, pageSize = pageSize })
+        }
     </div>
 </div>
 

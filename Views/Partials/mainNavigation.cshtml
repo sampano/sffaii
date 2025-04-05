@@ -13,21 +13,20 @@
     }
     var variants = Model.Value<IEnumerable<BlockListItem>>("navigation", fallback: Fallback.ToAncestors).Select(x => x.Content);
 }
-
 <div class="navbar-logo-left">
     <div data-animation="default"
-         data-collapse="medium"
-         data-duration="400"
-         data-easing="ease"
-         data-easing2="ease"
-         role="banner"
-         class="navbar-logo-left-container shadow-three w-nav">
+    data-collapse="medium"
+    data-duration="400"
+    data-easing="ease"
+    data-easing2="ease"
+    role="banner"
+    class="navbar-logo-left-container shadow-three w-nav">
         <div>
             <div class="navbar-wrapper">
                 <a href="/"
-                   aria-current="page"
-                   class="navbar-brand w-nav-brand w--current"
-                   aria-label="home">
+                aria-current="page"
+                class="navbar-brand w-nav-brand w--current"
+                aria-label="home">
                     @if (logo == null || string.IsNullOrEmpty(logo.MediaUrl()))
                     {
                         <img class="nav-logo" src="~/media/0w3fb02y/sample-logo.png" alt="sffaii logo" />
@@ -56,14 +55,14 @@
                                     @if (variants2 != null && variants2.Any())
                                     {
                                         <a class="nav-link-2 w--current @(variants2 != null && variants2.Any() ? "dropdown-toggle" : "")" target="@(primaryLinkNewTab == "True" ? "_blank" : "")"
-                                           href="@variant.Value("link")" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        href="@variant.Value("link")" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             @variant.Value("primaryLink")
                                         </a>
                                     }
                                     else
                                     {
                                         <a class="nav-link-2 w--current @(variants2 != null && variants2.Any() ? "dropdown-toggle" : "")" target="@(primaryLinkNewTab == "True" ? "_blank" : "")"
-                                           href="@variant.Value("link")" role="button">
+                                        href="@variant.Value("link")" role="button">
                                             @variant.Value("primaryLink")
                                         </a>
                                     }
@@ -71,15 +70,48 @@
 
                                     @if (variants2 != null && variants2.Any())
                                     {
+                                        
+
                                         <ul class="dropdown-menu dropdown-menu-end navbar__sub--items" aria-labelledby="navbarDropdownBlog">
                                             @foreach (var variant2 in variants2)
                                             {
+                                                var variants3 = variant2.Value<IEnumerable<BlockListItem>>("tertiaryLinksBlockList")
+                                                ?.Select(x => x.Content)
+                                                ?.ToList();
                                                 var secondaryLinkNewTab = variant2.Value("openNewTab").ToString();
-                                                <li>
-                                                    <a class="dropdown-item" href="@variant2.Value("link")" target="@(secondaryLinkNewTab == "True" ? "_blank" : "")">
-                                                        @variant2.Value("secondaryLink")
-                                                    </a>
+                                                <li class="position-relative @(variants3 != null && variants3.Any() ? "dropdown-submenu" : "")">
+                                                    @if (variants3 != null && variants3.Any())
+                                                    {
+                                                        <a class="dropdown-item dropdown-toggle-2"
+                                                           href="@variant2.Value("link")"
+                                                           target="@(secondaryLinkNewTab == "True" ? "_blank" : "")"
+                                                           role="button"
+                                                           aria-expanded="false">
+                                                            @variant2.Value("secondaryLink")
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a class="dropdown-item"
+                                                           href="@variant2.Value("link")"
+                                                           target="@(secondaryLinkNewTab == "True" ? "_blank" : "")">
+                                                            @variant2.Value("secondaryLink")
+                                                        </a>
+                                                    }
+
+                                                    @if (variants3 != null && variants3.Any())
+                                                    {
+                                                        <ul class="dropdown-menu-3 dropdown-menu-3-end">
+                                                            @foreach (var variant3 in variants3)
+                                                            {
+                                                                <li>
+                                                                    <a href="@variant3.Value("link")" class="dropdown-item">@variant3.Value("tertiaryLink")</a>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
                                                 </li>
+
                                             }
                                         </ul>
                                     }
@@ -99,7 +131,7 @@
                     <div class="w-icon-nav-menu"></div>
                 </div>
                 <div class="mobile-menu" id="mobileMenu">
-                    <ul>
+                    @*<ul>
                         @if (variants != null)
                         {
                             foreach (var variant in variants)
@@ -144,7 +176,81 @@
 
                             }
                         }
+                    </ul>*@
+                    <ul class="mobile-nav">
+                        @if (variants != null)
+                        {
+                            foreach (var variant in variants)
+                            {
+                                var variants2 = variant.Value<IEnumerable<BlockListItem>>("secondaryLinks")
+                                ?.Select(x => x.Content)
+                                ?.ToList();
+
+                                var primaryLinkNewTab = variant?.Value("openNewTab")?.ToString();
+                                <li class="mobile-nav-item">
+                                    <div class="mobile-nav-header">
+                                        <a class="mobile-nav-link-2 w--current"
+                                           target="@(primaryLinkNewTab == "True" ? "_blank" : "")"
+                                           href="@variant.Value("link")">
+                                            @variant.Value("primaryLink")
+                                        </a>
+
+                                        @if (variants2 != null && variants2.Any())
+                                        {
+                                            <button class="mobile-toggle-btn" type="button" onclick="toggleDropdown(this)">
+                                                ▸
+                                            </button>
+                                        }
+                                    </div>
+
+                                    @if (variants2 != null && variants2.Any())
+                                    {
+                                        <ul class="mobile-dropdown-menu hidden">
+                                            @foreach (var variant2 in variants2)
+                                            {
+                                                var secondaryLinkNewTab = variant2.Value("openNewTab")?.ToString();
+                                                var variants3 = variant2.Value<IEnumerable<BlockListItem>>("tertiaryLinksBlockList")
+                                                ?.Select(x => x.Content)
+                                                ?.ToList();
+
+                                                <li class="mobile-sub-item">
+                                                    <div class="mobile-nav-header">
+                                                        <a class="mobile-dropdown-item"
+                                                           href="@variant2.Value("link")"
+                                                           target="@(secondaryLinkNewTab == "True" ? "_blank" : "")">
+                                                            @variant2.Value("secondaryLink")
+                                                        </a>
+
+                                                        @if (variants3 != null && variants3.Any())
+                                                        {
+                                                            <button class="mobile-toggle-btn" type="button" onclick="toggleDropdown(this)">
+                                                                ▸
+                                                            </button>
+                                                        }
+                                                    </div>
+
+                                                    @if (variants3 != null && variants3.Any())
+                                                    {
+                                                        <ul class="mobile-dropdown-menu-3 hidden">
+                                                            @foreach (var variant3 in variants3)
+                                                            {
+                                                                <li>
+                                                                    <a class="mobile-dropdown-item-3" href="@variant3.Value("link")">
+                                                                        @variant3.Value("tertiaryLink")
+                                                                    </a>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        }
                     </ul>
+
                 </div>
             </div>
         </div>
@@ -204,5 +310,17 @@
     });
 </script>
 
+<script>
+    function toggleDropdown(button) {
+        const dropdown = button.parentElement.nextElementSibling;
+        if (dropdown.classList.contains("hidden")) {
+            dropdown.classList.remove("hidden");
+            button.textContent = "▾"; // down arrow
+        } else {
+            dropdown.classList.add("hidden");
+            button.textContent = "▸"; // right arrow
+        }
+    }
+</script>
 
 

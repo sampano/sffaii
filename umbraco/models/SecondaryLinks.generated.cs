@@ -71,5 +71,13 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("secondaryLink")]
 		public virtual string SecondaryLink => this.Value<string>(_publishedValueFallback, "secondaryLink");
+
+		///<summary>
+		/// Tertiary Links
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("tertiaryLinksBlockList")]
+		public virtual global::Umbraco.Cms.Core.Models.Blocks.BlockListModel TertiaryLinksBlockList => this.Value<global::Umbraco.Cms.Core.Models.Blocks.BlockListModel>(_publishedValueFallback, "tertiaryLinksBlockList");
 	}
 }

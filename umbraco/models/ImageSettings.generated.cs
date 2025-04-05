@@ -50,12 +50,28 @@ namespace Umbraco.Cms.Web.Common.PublishedModels
 		// properties
 
 		///<summary>
+		/// Classes
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("classes")]
+		public virtual string Classes => this.Value<string>(_publishedValueFallback, "classes");
+
+		///<summary>
 		/// Display
 		///</summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
 		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
 		[ImplementPropertyType("display")]
 		public virtual string Display => this.Value<string>(_publishedValueFallback, "display");
+
+		///<summary>
+		/// Element ID
+		///</summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("Umbraco.ModelsBuilder.Embedded", "15.2.2+c198e19")]
+		[global::System.Diagnostics.CodeAnalysis.MaybeNull]
+		[ImplementPropertyType("elementId")]
+		public virtual string ElementId => this.Value<string>(_publishedValueFallback, "elementId");
 
 		///<summary>
 		/// Height

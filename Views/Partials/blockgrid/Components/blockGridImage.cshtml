@@ -58,6 +58,8 @@
     <div id="block-image-@content.Key-" class="block-image">
     @if (typedMediaPickerSingle != null)
     {
-        <img src="@typedMediaPickerSingle.MediaUrl()" />
+        <img id="@settings.ElementId" src="@typedMediaPickerSingle.MediaUrl()" class="@settings.Classes"/>
     }
     </div>
+
+@Html.Raw(content.Script)
