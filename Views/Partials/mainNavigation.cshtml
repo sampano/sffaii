@@ -34,7 +34,7 @@
                     }
                     else
                     {
-                        <img class="nav-logo" src="@logo.Url()" alt="sffaii logo" width="100%" height="65"/>
+                        <img class="nav-logo" src="@logo.Url()" alt="sffaii logo" width="100%" height="65" />
                     }
                 </a>
                 <nav role="navigation" class="nav-menu-wrapper w-nav-menu">
@@ -100,7 +100,7 @@
                 </div>
                 <div class="mobile-menu" id="mobileMenu">
                     <ul>
-                         @if (variants != null)
+                        @if (variants != null)
                         {
                             foreach (var variant in variants)
                             {
@@ -109,22 +109,22 @@
                                 ?.ToList();
 
                                 var primaryLinkNewTab = variant?.Value("openNewTab")?.ToString();
-                            <li class=" @(variants2 != null && variants2.Any() ? "dropdown" : "")">
-                                @if (variants2 != null && variants2.Any())
-                                {
-                           
-                                <a class="mobile-nav-link-2 w--current @(variants2 != null && variants2.Any() ? "dropdown-toggle" : "")" target="@(primaryLinkNewTab == "True" ? "_blank" : "")" href="@variant.Value("link")" role="button" data-bs-toggle="dropdown" aria-expanded="false"> 
-                                   @variant.Value("primaryLink")
-                                </a>
-                            
-                                }
-                                else
-                                {
-                                    <a class="mobile-nav-link-2 w--current @(variants2 != null && variants2.Any() ? "dropdown-toggle" : "")" target="@(primaryLinkNewTab == "True" ? "_blank" : "")"
-                                       href="@variant.Value("link")" role="button">
-                                        @variant.Value("primaryLink")
-                                    </a>
-                                }
+                                <li class=" @(variants2 != null && variants2.Any() ? "dropdown" : "")">
+                                    @if (variants2 != null && variants2.Any())
+                                    {
+
+                                        <a class="mobile-nav-link-2 w--current @(variants2 != null && variants2.Any() ? "dropdown-toggle" : "")" target="@(primaryLinkNewTab == "True" ? "_blank" : "")" href="@variant.Value("link")" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            @variant.Value("primaryLink")
+                                        </a>
+
+                                    }
+                                    else
+                                    {
+                                        <a class="mobile-nav-link-2 w--current @(variants2 != null && variants2.Any() ? "dropdown-toggle" : "")" target="@(primaryLinkNewTab == "True" ? "_blank" : "")"
+                                           href="@variant.Value("link")" role="button">
+                                            @variant.Value("primaryLink")
+                                        </a>
+                                    }
                                     @if (variants2 != null && variants2.Any())
                                     {
                                         <ul class="mobile-dropdown-menu mobile-navbar__sub--items" aria-labelledby="">
@@ -139,9 +139,9 @@
                                             }
                                         </ul>
                                     }
-                                   
-                            </li>
-                                   
+
+                                </li>
+
                             }
                         }
                     </ul>
@@ -206,4 +206,3 @@
 
 
 
-            
